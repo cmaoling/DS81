@@ -4,5 +4,9 @@ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sour
 sudo apt-get update
 sudo apt-get upgrade
 apt-get purge lxc-docker
+apt-get install linux-image-extra-$(uname -r)
+echo "Perform default check:"
+curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh | /bin/bash /dev/stdin
+echo "Verify Repro:"
 apt-cache policy docker-engine
 #sudo apt-get install -y 
