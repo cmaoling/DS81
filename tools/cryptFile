@@ -1,0 +1,91 @@
+sudo pwd
+PID=$$
+for var in "$@"
+do
+    echo "PID is set to <$var>"
+    PID="$var"
+done
+MOUNT="container.$PID"
+if [ -d "/mnt/$MOUNT" ]; then
+	echo "Closing mount-point $MOUNT"
+	sudo umount /mnt/$MOUNT
+	echo "Closing LUKS $MOUNT"
+	sudo cryptsetup luksClose $MOUNT
+	echo "Remove mount-point $MOUNT"
+	sudo rmdir /mnt/$MOUNT
+	LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+	if [ "$LOOP" == "" ]; then
+		:
+	else
+		echo "Discard Loop $LOOP"
+		sudo losetup -d $LOOP
+	fi	
+	if [ -h ./$MOUNT ]; then
+		echo "Remove link to mount-point"
+		rm ./$MOUNT
+	else
+		echo "Nolink to mount-point found. Strange!"
+		pwd
+		ls -lart ./$MOUNT
+	fi
+	exit
+fi
+FILE="./nutshell.$PID"
+if [ -e $FILE ]; then
+	NEW=0
+else
+	NEW=1
+fi
+USER=`whoami`
+if [ "$NEW" -eq 0 ]; then
+	echo "Reuse $FILE"
+else
+	echo "Create $FILE"
+	dd if=/dev/urandom of=$FILE bs=1M count=600
+fi
+LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+if [ "$LOOP" == "" ]; then
+	echo "Neue Loop ausfassen"
+	LOOP=`sudo losetup -f`
+	NOLOOP=0
+else
+	echo "Loop für $PID existiert"
+	NOLOOP=1
+fi
+echo "LOOP=$LOOP"
+echo "Container in ein Loop Device ($LOOP) einhängen"
+if [ "$LOOP" == "" ]; then
+	echo "Unable to create loop. ABORT"
+	exit
+fi
+if [ "$NOLOOP" -eq 0 ]; then
+	echo "Datei wird eingehängt und kann als normale HDD angesprochen werden"
+	sudo losetup -v $LOOP $FILE
+fi
+if [ "$NEW" -eq 1 ]; then
+	echo "Datei wird mit 512 bit Schlüssel verschlüsselt"
+	sudo cryptsetup -c aes-xts-plain -y -s 512 luksFormat $LOOP
+fi
+echo "Öffnet den Luks Container"
+sudo cryptsetup luksOpen $LOOP $MOUNT
+if [ "$NEW" -eq 1 ]; then
+	echo "Datei wird zu ext4 formatiert"
+	sudo mkfs.ext4 /dev/mapper/$MOUNT
+fi
+echo "Datei wird in /mnt/$MOUNT gemountet"
+if [ -d "/mnt/$MOUNT" ]; then
+	CHOWN=0
+else
+	sudo mkdir /mnt/$MOUNT
+	CHOWN=1
+fi
+sudo mount -t ext4 /dev/mapper/$MOUNT /mnt/$MOUNT
+if [ "$CHOWN" -eq 1 ]; then
+	sudo chown $USER:$USER /mnt/$MOUNT
+fi
+if [ -e ./$MOUNT ]; then
+	echo "Link to mount-point exists"
+else
+	echo "Create link to mount-point"
+	ln -s /mnt/$MOUNT ./$MOUNT
+fi
