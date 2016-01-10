@@ -16,6 +16,7 @@ sudo service docker start
 sudo groupadd docker
 #Add the connected user "${USER}" to the docker group. Change the user name to match your preferred user:
 sudo gpasswd -a ${USER} docker
+newgrp docker
 #Restart the Docker daemon:
 sudo service docker restart
 docker run hello-world
