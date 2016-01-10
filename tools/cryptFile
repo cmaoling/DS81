@@ -41,7 +41,7 @@ if [ "$NEW" -eq 0 ]; then
 	echo "Reuse $FILE"
 else
 	echo "Create $FILE"
-	dd if=/dev/urandom of=$FILE bs=1M count=600
+	dd if=/dev/urandom of=$FILE bs=1M count=10
 fi
 LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
 if [ "$LOOP" == "" ]; then
