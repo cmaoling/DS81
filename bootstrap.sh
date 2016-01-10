@@ -5,7 +5,9 @@ echo "GIT setup:"
 git config --global user.email "colinas.maoling@t-online.de"
 git config --global user.name "Colinas Maoling"
 if [ -d DS81 ]; then
+  cd DS81 
   git pull
+  cd ..
 else
   git clone https://github.com/cmaoling/DS81.git
 fi
