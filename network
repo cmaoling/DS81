@@ -1,0 +1,94 @@
+ 9  less /etc/network/interfaces
+   10  dmesg 
+   11  cd /etc/
+   12  less hostname 
+   13  ifconfig 
+   14  ifconfig eth0 up
+   15  sudo ifconfig eth0 up
+   16  dhclient eth0
+   17  sudo dhclient eth0
+   18  ifconfig -a
+   19  sudo lshw -c network
+   20  cd /media/
+   21  ls a-ltr
+   22  ls -altr
+   23  cd nicolas/
+   24  ls -altr
+   25  cd B9D2-EDBF/
+   26  ls -altr
+   27  cd realtek/
+   28  ls -altr
+   29  cd r8168-8.041.00/
+   30  ls a-ltr
+   31  ls -altr
+   32  lsmod | grep r8168
+   33  chmod 700 autorun.sh 
+   34  sudo ./autorun.sh
+   35  ls a-ltr
+   36  ls -altr
+   37  chmod 700 autorun.sh 
+   38  ls -alrt
+   39  cd ..
+   40  cp -r r8168-8.041.00/ ~/Downloads/
+   41  cd ~/Downloads/
+   42  ls -altr
+   43  cd r8168-8.041.00/
+   44  chmod 700 autorun.sh 
+   45  ls -altr
+   46  sudo ./autorun.sh 
+   47  lsmod | grep r8168
+   48  ifconfig -a
+   49  ping 192.168.4.1
+   50  ifconfig -a
+   51  lsmod | grep r8168
+   52  depmod -a
+   53  sudo depmod -a
+   54  less /etc/modules
+   55  history
+   56  lspci -v
+   57  ifconfig -a
+   58  sudo /etc/init.d/networking
+   59  sudo /etc/init.d/networking restart
+   60  sudo lshw network
+   61  sudo lshw -C network
+   62  sudo ethtool eth0
+   63  sudo ethtool eth1
+   64  ifconfig -a
+   65  sudo sysctl net.ipv4.ip_forward
+   66  less /etc/sysctl.conf 
+   67  sudo /etc/init.d/networking restart
+   68  sudo sysctl net.ipv6.conf.all.disable_ipv6 
+   69  sudo sysctl net.ipv6.conf.all.disable_ipv4 
+   70  sudo sysctl net.ipv4.conf.all.disable_policy 
+   71  sudo nano /etc/sysctl.conf 
+   72  sudo ethtool eth1
+   73  sudo ethtool eth0
+   74  ifconfig -a
+   75  lsmodistory
+   76  history
+   77  lspci -v
+   78  less /etc/resolv.conf 
+   79  ping 192.168.4.1
+   80  ifconfig -a
+   81  history
+   82  sudo lshw -C network
+   83  sudo ethtool eth1
+   84  sudo ethtool eth0
+   85  sudo ethtool eth1
+   86  sudo ethtool eth0
+   87  sudo ethtool --change eth0 speed 10 duplex half autoneg off
+   88  sudo ethtool eth0
+   89  sudo ethtool --change eth0 autoneg off
+   90  sudo ethtool eth0
+   91  ifconfig 
+   92  ping 192.168.4.1
+   93  sudo nano /etc/modprobe.d/blacklist
+   94  sysctl net.ipv6.conf.all.disable_ipv6 
+   95  echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf 
+   96  sudo echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf 
+   97  history
+   98  sudo ethtool eth0
+   99  sudo /etc/network/interfaces
+  100  sudo nano /etc/network/interfaces
+  101  ifconfig  -a
+  102  ping 192.168.4.1
