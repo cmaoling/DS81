@@ -10,3 +10,6 @@ curl -L https://raw.githubusercontent.com/docker/docker/master/contrib/check-con
 echo "Verify Repro:"
 apt-cache policy docker-engine
 #sudo apt-get install -y 
+apt-get install docker-engine
+service docker start
+docker run hello-world
