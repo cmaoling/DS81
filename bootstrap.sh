@@ -17,3 +17,5 @@ echo "Git repro set up."
 echo "Change User Desktop. Current file: "`gsettings get org.gnome.desktop.background picture-uri`
 gsettings set org.gnome.desktop.background picture-uri file://`pwd`/$DEFAULT_REPOSITORY/Bilder/desktop.background
 echo "   => "`gsettings get org.gnome.desktop.background picture-uri`
+echo "Enable crypt:"
+apt-get install cryptsetup
