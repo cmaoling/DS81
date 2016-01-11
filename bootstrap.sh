@@ -18,4 +18,4 @@ echo "Change User Desktop. Current file: "`gsettings get org.gnome.desktop.backg
 gsettings set org.gnome.desktop.background picture-uri file://`pwd`/$DEFAULT_REPOSITORY/Bilder/desktop.background
 echo "   => "`gsettings get org.gnome.desktop.background picture-uri`
 echo "Enable crypt:"
-apt-get install cryptsetup
+sudo apt-get install cryptsetup
