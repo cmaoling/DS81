@@ -19,3 +19,4 @@ gsettings set org.gnome.desktop.background picture-uri file://`pwd`/$DEFAULT_REP
 echo "   => "`gsettings get org.gnome.desktop.background picture-uri`
 echo "Enable crypt:"
 sudo apt-get install -y cryptsetup
+export KEYSTICK=`cat keystick`
