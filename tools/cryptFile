@@ -14,6 +14,7 @@ if [ -d "/mnt/$MOUNT" ]; then
 	echo "Remove mount-point $MOUNT"
 	sudo rmdir /mnt/$MOUNT
 	LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+	echo "(DEBUG) LOOP=<$LOOP>"
 	if [ "$LOOP" == "" ]; then
 		:
 	else
