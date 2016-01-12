@@ -20,13 +20,13 @@ if [ -d "/mnt/$MOUNT" ]; then
 		echo "Discard Loop $LOOP"
 		sudo losetup -d $LOOP
 	fi	
-	if [ -h ./$MOUNT ]; then
+	if [ -h ./$PID ]; then
 		echo "Remove link to mount-point"
-		rm ./$MOUNT
+		rm ./$PID
 	else
 		echo "Nolink to mount-point found. Strange!"
 		pwd
-		ls -lart ./$MOUNT
+		ls -lart ./$PID
 	fi
 	exit
 fi
@@ -83,9 +83,9 @@ sudo mount -t ext4 /dev/mapper/$MOUNT /mnt/$MOUNT
 if [ "$CHOWN" -eq 1 ]; then
 	sudo chown $USER:$USER /mnt/$MOUNT
 fi
-if [ -e ./$MOUNT ]; then
+if [ -e ./$PID ]; then
 	echo "Link to mount-point exists"
 else
 	echo "Create link to mount-point"
-	ln -s /mnt/$MOUNT ./$MOUNT
+	ln -s /mnt/$MOUNT ./$PID
 fi
