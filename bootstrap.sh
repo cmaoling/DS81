@@ -5,7 +5,7 @@ echo "GIT setup:"
 git config --global user.email "colinas.maoling@t-online.de"
 git config --global user.name "Colinas Maoling"
 DEFAULT_REPOSITORY="DS81"
-if [ -d  "$DEFAULT_REPOSITORY"]; then
+if [ -d  "$DEFAULT_REPOSITORY" ]; then
   cd DS81 
   git pull
   cd ..
