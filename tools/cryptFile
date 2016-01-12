@@ -30,11 +30,11 @@ if [ -d "/mnt/$MOUNT" ]; then
 	fi
 	exit
 fi
-FILE="./nutshell.$PID"
+FILE="/media/$USER/$KEYSTICK/nutshell.$PID"
 if [ -e $FILE ]; then
 	NEW=0
 else
-	NEW=1
+	exit
 fi
 USER=`whoami`
 if [ "$NEW" -eq 0 ]; then
