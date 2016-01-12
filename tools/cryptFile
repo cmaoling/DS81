@@ -45,6 +45,7 @@ else
 	dd if=/dev/urandom of=$FILE bs=1M count=10
 fi
 LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+echo "(DEBUG) LOOP=<$LOOP>"
 if [ "$LOOP" == "" ]; then
 	echo "Neue Loop ausfassen"
 	LOOP=`sudo losetup -f`
