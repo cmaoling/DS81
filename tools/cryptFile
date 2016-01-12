@@ -34,7 +34,7 @@ FILE="/media/$USER/$KEYSTICK/nutshell.$PID"
 if [ -e $FILE ]; then
 	NEW=0
 else
-	exit
+	NEW=1
 fi
 USER=`whoami`
 if [ "$NEW" -eq 0 ]; then
