@@ -10,7 +10,7 @@ else
   echo "Please insert keystick w/ encrypted repository and start script again. (FILE=$FILE)"
   exit
 fi
-./tools/cryptFile $DEFAULT
+./tools/cryptFile $DEFAULT -keep
 if [ -d ./$DEFAULT ]; then
    if [ -e $SSHDIR/id_$ALGORITHM ]; then
       echo "Saving existing $ALGORITHM key under $SSHDIR/id_$ALGORITHM.$$"
