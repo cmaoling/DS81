@@ -16,8 +16,8 @@ if [ -d ./$DEFAULT ]; then
       cp $SSHDIR/id_$ALGORITHM.pub $SSHDIR/id_$ALGORITHM.$$.pub
    fi
    echo "cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/"
-   cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/
-   cp ./$DEFAULT/id_$ALGORITHM.pub $SSHDIR/
+   cp "./$DEFAULT/id_$ALGORITHM" "$SSHDIR/"
+   cp "./$DEFAULT/id_$ALGORITHM.pub" "$SSHDIR/"
 else
    echo "Unable to find ./$DEFAULT. Assuming cryptFile did not complete sucessfully"
    exit
