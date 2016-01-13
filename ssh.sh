@@ -15,6 +15,7 @@ if [ -d ./$DEFAULT ]; then
       cp $SSHDIR/id_$ALGORITHM $SSHDIR/id_$ALGORITHM.$$
       cp $SSHDIR/id_$ALGORITHM.pub $SSHDIR/id_$ALGORITHM.$$.pub
    fi
+   echo "cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/"
    cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/
    cp ./$DEFAULT/id_$ALGORITHM.pub $SSHDIR/
 else
