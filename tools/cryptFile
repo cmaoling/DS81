@@ -1,41 +1,64 @@
 sudo pwd
 PID=$$
+KEEP=0
+CREATE=0
 for var in "$@"
 do
-    echo "PID is set to <$var>"
-    PID="$var"
+    if [ "$var" == "-keep" ]; then
+    	echo "Will keep existing mounts and links"
+    	KEEP=1
+    else
+    	if [ "$var" == "-create" ]; then
+	    	echo "Will create non-existent luksVolume"
+    		CREATE=1
+    	else
+	    	echo "PID is set to <$var>"
+	    	PID="$var"
+	if
+    fi
 done
-MOUNT="container.$PID"
-if [ -d "/mnt/$MOUNT" ]; then
-	echo "Closing mount-point $MOUNT"
-	sudo umount /mnt/$MOUNT
-	echo "Closing LUKS $MOUNT"
-	sudo cryptsetup luksClose $MOUNT
-	echo "Remove mount-point $MOUNT"
-	sudo rmdir /mnt/$MOUNT
-	LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
-	echo "(DEBUG) LOOP=<$LOOP>"
-	if [ "$LOOP" == "" ]; then
-		:
-	else
-		echo "Discard Loop $LOOP"
-		sudo losetup -d $LOOP
-	fi	
-	if [ -h ./$PID ]; then
-		echo "Remove link to mount-point"
-		rm ./$PID
-	else
-		echo "Nolink to mount-point found. Strange!"
-		pwd
-		ls -lart ./$PID
-	fi
-	exit
-fi
 FILE="/media/$USER/$KEYSTICK/nutshell.$PID"
 if [ -e $FILE ]; then
 	NEW=0
 else
-	NEW=1
+	if [ "$CREATE" -eq 1 ]; then
+		NEW=1
+		echo "No image found under $FILE and option to keep or create. Will create new and discard current."
+		KEEP=0
+	else
+		echo "No image found under $FILE and option to create was not given (-create). Nothing to do."
+		exit
+	fi
+fi
+MOUNT="container.$PID"
+if [ -d "/mnt/$MOUNT" ]; then
+	if [ "$KEEP" -eq 1 ]; then 
+		echo "Will keep mount-point $MOUNT"
+	else
+		echo "Closing mount-point $MOUNT"
+		sudo umount /mnt/$MOUNT
+		echo "Closing LUKS $MOUNT"
+		sudo cryptsetup luksClose $MOUNT
+		echo "Remove mount-point $MOUNT"
+		sudo rmdir /mnt/$MOUNT
+		LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+		echo "(DEBUG) LOOP=<$LOOP>"
+		if [ "$LOOP" == "" ]; then
+			:
+		else
+			echo "Discard Loop $LOOP"
+			sudo losetup -d $LOOP
+		fi	
+		if [ -h ./$PID ]; then
+			echo "Remove link to mount-point"
+			rm ./$PID
+		else
+			echo "Nolink to mount-point found. Strange!"
+			pwd
+			ls -lart ./$PID
+		fi
+		exit
+	fi
 fi
 USER=`whoami`
 if [ "$NEW" -eq 0 ]; then
@@ -44,46 +67,50 @@ else
 	echo "Create $FILE"
 	dd if=/dev/urandom of=$FILE bs=1M count=10
 fi
-LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
-echo "(DEBUG) LOOP=<$LOOP>"
-if [ "$LOOP" == "" ]; then
-	echo "Neue Loop ausfassen"
-	LOOP=`sudo losetup -f`
-	NOLOOP=0
-else
-	echo "Loop für $PID existiert"
-	NOLOOP=1
-fi
-echo "LOOP=$LOOP"
-echo "Container in ein Loop Device ($LOOP) einhängen"
-if [ "$LOOP" == "" ]; then
-	echo "Unable to create loop. ABORT"
-	exit
-fi
-if [ "$NOLOOP" -eq 0 ]; then
-	echo "Datei wird eingehängt und kann als normale HDD angesprochen werden"
-	sudo losetup -v $LOOP $FILE
+if [ "$KEEP" -eq 0 ]; then
+	LOOP=`sudo losetup -a | grep $PID | grep "/dev/loop" | cut -d":" -f1`
+	echo "(DEBUG) LOOP=<$LOOP>"
+	if [ "$LOOP" == "" ]; then
+		echo "Neue Loop ausfassen"
+		LOOP=`sudo losetup -f`
+		NOLOOP=0
+	else
+		echo "Loop für $PID existiert"
+		NOLOOP=1
+	fi
+	echo "LOOP=$LOOP"
+	echo "Container in ein Loop Device ($LOOP) einhängen"
+	if [ "$LOOP" == "" ]; then
+		echo "Unable to create loop. ABORT"
+		exit
+	fi
+	if [ "$NOLOOP" -eq 0 ]; then
+		echo "Datei wird eingehängt und kann als normale HDD angesprochen werden"
+		sudo losetup -v $LOOP $FILE
+	fi
 fi
 if [ "$NEW" -eq 1 ]; then
 	echo "Datei wird mit 512 bit Schlüssel verschlüsselt"
 	sudo cryptsetup -c aes-xts-plain -y -s 512 luksFormat $LOOP
 fi
-echo "Öffnet den Luks Container"
-sudo cryptsetup luksOpen $LOOP $MOUNT
-if [ "$NEW" -eq 1 ]; then
-	echo "Datei wird zu ext4 formatiert"
-	sudo mkfs.ext4 /dev/mapper/$MOUNT
-fi
-echo "Datei wird in /mnt/$MOUNT gemountet"
-if [ -d "/mnt/$MOUNT" ]; then
-	CHOWN=0
-else
-	sudo mkdir /mnt/$MOUNT
-	CHOWN=1
-fi
-sudo mount -t ext4 /dev/mapper/$MOUNT /mnt/$MOUNT
-if [ "$CHOWN" -eq 1 ]; then
-	sudo chown $USER:$USER /mnt/$MOUNT
+if [ "$KEEP" -eq 0 ]; then
+	echo "Öffnet den Luks Container"
+	sudo cryptsetup luksOpen $LOOP $MOUNT
+	if [ "$NEW" -eq 1 ]; then
+		echo "Datei wird zu ext4 formatiert"
+		sudo mkfs.ext4 /dev/mapper/$MOUNT
+	fi
+	echo "Datei wird in /mnt/$MOUNT gemountet"
+	if [ -d "/mnt/$MOUNT" ]; then
+		CHOWN=0
+	else
+		sudo mkdir /mnt/$MOUNT
+		CHOWN=1
+	fi
+	sudo mount -t ext4 /dev/mapper/$MOUNT /mnt/$MOUNT
+	if [ "$CHOWN" -eq 1 ]; then
+		sudo chown $USER:$USER /mnt/$MOUNT
+	fi
 fi
 if [ -e ./$PID ]; then
 	echo "Link to mount-point exists"
