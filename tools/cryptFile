@@ -14,7 +14,7 @@ do
     	else
 	    	echo "PID is set to <$var>"
 	    	PID="$var"
-	if
+	fi
     fi
 done
 FILE="/media/$USER/$KEYSTICK/nutshell.$PID"
