@@ -1,5 +1,6 @@
 DEFAULT=secret
 ALGORITHM=rsa
+SSHDIR="~/.ssh"
 FILE="/media/$USER/$KEYSTICK/nutshell.$DEFAULT"
 if [ -e $FILE ]; then
   echo "Found special keystick w/ encrypted repository under $FILE"
@@ -9,13 +10,13 @@ else
 fi
 ./tools/cryptFile $DEFAULT
 if [ -d ./$DEFAULT ]; then
-   if [ -e ~/.ssh/id_$ALGORITHM ]; then
-      echo "Saving existing $ALGORITHM key under ~/.ssh/id_$ALGORITHM.$$"
-      cp ~/.ssh/id_$ALGORITHM ~/.ssh/id_$ALGORITHM.$$
-      cp ~/.ssh/id_$ALGORITHM.pub ~/.ssh/id_$ALGORITHM.$$.pub
+   if [ -e $SSHDIR/id_$ALGORITHM ]; then
+      echo "Saving existing $ALGORITHM key under $SSHDIR/id_$ALGORITHM.$$"
+      cp $SSHDIR/id_$ALGORITHM $SSHDIR/id_$ALGORITHM.$$
+      cp $SSHDIR/id_$ALGORITHM.pub $SSHDIR/id_$ALGORITHM.$$.pub
    fi
-   cp ./$DEFAULT/id_$ALGORITHM ~/ssh/
-   cp ./$DEFAULT/id_$ALGORITHM.pub ~/ssh/
+   cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/
+   cp ./$DEFAULT/id_$ALGORITHM.pub $SSHDIR/
 else
    echo "Unable to find ./$DEFAULT. Assuming cryptFile did not complete sucessfully"
    exit
