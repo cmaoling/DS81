@@ -20,6 +20,7 @@ if [ -d ./$DEFAULT ]; then
    echo "cp ./$DEFAULT/id_$ALGORITHM $SSHDIR/"
    cp "./$DEFAULT/id_$ALGORITHM" "$SSHDIR/"
    cp "./$DEFAULT/id_$ALGORITHM.pub" "$SSHDIR/"
+   cat "./$DEFAULT/known_hosts/*" "$SSHDIR/known_hosts"
 else
    echo "Unable to find ./$DEFAULT. Assuming cryptFile did not complete sucessfully"
    exit
