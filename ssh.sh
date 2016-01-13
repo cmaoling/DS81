@@ -1,6 +1,8 @@
 DEFAULT=secret
 ALGORITHM=rsa
-SSHDIR="~/.ssh"
+HOMEDIR=`echo ~`
+SSHDIR="$HOMEDIR/.ssh"
+
 FILE="/media/$USER/$KEYSTICK/nutshell.$DEFAULT"
 if [ -e $FILE ]; then
   echo "Found special keystick w/ encrypted repository under $FILE"
