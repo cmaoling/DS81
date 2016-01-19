@@ -3,7 +3,7 @@ VERSION=8.0.1
 DISPLAY=:0
 TOOL=netbeans
 echo $PATH
-local tmpPath=PATH
+local tmpPath=$PATH
 TOOLPATH=/tmp/docker-netbeans.$$
 mkdir $TOOLPATH
 PATH=$PATH:$TOOLPATH
