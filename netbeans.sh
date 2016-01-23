@@ -11,3 +11,4 @@ L=$TOOLPATH/$TOOL && curl -sL https://github.com/fgrehm/docker-netbeans/raw/mast
 docker run -ti --rm -e DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/.netbeans-docker:/home/developer/.netbeans  -v `pwd`:/workspace fgrehm/netbeans:v$VERSION
 ls -la $TOOLPATH
 /bin/rm -rf $TOOLPATH 
+http://wiki.ros.org/docker/Tutorials/GUI
