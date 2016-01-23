@@ -9,7 +9,7 @@ PATH=$PATH:$TOOLPATH
 docker pull fgrehm/netbeans:v$VERSION
 L=$TOOLPATH/$TOOL && curl -sL https://github.com/fgrehm/docker-netbeans/raw/master/netbeans > $L && chmod +x $L
 docker run -ti --rm -e DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v `pwd`/.netbeans-docker:/home/developer/.netbeans  -v `pwd`:/workspace fgrehm/netbeans:v$VERSION
-containerId='docker ps -l -q'
+containerId=`docker ps -l -q`
 containerHostname=`docker inspect --format='{{ .Config.Hostname }}' $containerId`
 echo "containerID => $containerID w/ containerHostname $containerHostname"
 xhost +local:$containerHostname
