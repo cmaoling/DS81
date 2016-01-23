@@ -13,12 +13,11 @@ containerId=`docker ps -l -q`
 containerHostname=`docker inspect --format='{{ .Config.Hostname }}' $containerId`
 echo "  containerId : $containerId"
 echo "  containerHostname $containerHostname"
-xhost +local:$containerHostname
-docker start $containerId
-echo "Container $containerId stopped/exited"
-docker logs $containerId
+echo "   - XHOST: "xhost +local:$containerHostname
+echo "Restarting Container $containerId : "`docker start $containerId`
+echo "Container $containerId stopped/exited: "`docker logs $containerId`
 echo "Cleanup: "
-echo "   - XHOST"`xhost -local:$containerHostname`
+echo "   - XHOST: "`xhost -local:$containerHostname`
 ls -la $TOOLPATH
 echo "   - TOOLPATH: "`/bin/rm -rf $TOOLPATH `
 #http://wiki.ros.org/docker/Tutorials/GUI
