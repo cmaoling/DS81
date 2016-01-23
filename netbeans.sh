@@ -2,8 +2,8 @@
 VERSION=8.0.1
 DISPLAY=:0
 TOOL=netbeans
-echo $PATH
 TOOLPATH=/tmp/docker-netbeans.$$
+echo "Starting $TOOL:$VERSION on display $DISPLAY"
 mkdir $TOOLPATH
 PATH=$PATH:$TOOLPATH
 docker pull fgrehm/netbeans:v$VERSION
@@ -11,12 +11,15 @@ L=$TOOLPATH/$TOOL && curl -sL https://github.com/fgrehm/docker-netbeans/raw/mast
 docker run -ti --rm -e DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v `pwd`/.netbeans-docker:/home/developer/.netbeans  -v `pwd`:/workspace fgrehm/netbeans:v$VERSION
 containerId=`docker ps -l -q`
 containerHostname=`docker inspect --format='{{ .Config.Hostname }}' $containerId`
-echo "containerID => $containerID w/ containerHostname $containerHostname"
+echo "  containerId : $containerId"
+echo "  containerHostname $containerHostname"
 xhost +local:$containerHostname
-xhost
 docker start $containerId
-echo "containerID => $containerID w/ containerHostname $containerHostname"
-xhost -local:$containerHostname
+echo "Container $containerId stopped/exited"
+docker logs $containerId
+echo "Cleanup: "
+echo "   - XHOST"`xhost -local:$containerHostname`
 ls -la $TOOLPATH
-/bin/rm -rf $TOOLPATH 
+echo "   - TOOLPATH: "`/bin/rm -rf $TOOLPATH `
 #http://wiki.ros.org/docker/Tutorials/GUI
+echo "Done."
