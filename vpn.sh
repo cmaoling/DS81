@@ -73,6 +73,8 @@ COMMIT
 -A INPUT   -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT   -i tun0 -m state --state NEW -j DROP
 -A OUTPUT  -o tun0 -j DROP
+-A OUTPUT  -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT  -o eth0 -j DROP
 -A FORWARD -i eth0:1 -o tun0 -j ACCEPT
 -A FORWARD -i tun0 -o eth0:1 -d 192.168.0.0/21 -j ACCEPT
 -A FORWARD -i tun0 -o eth0:1 -j DROP
