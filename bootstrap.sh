@@ -2,8 +2,9 @@
 sudo apt-get update
 sudo apt-get install -y  gparted testdisk git
 echo "GIT setup:"
-git config --global user.email "colinas.maoling@t-online.de"
+git config --global user.email "c.m@t-o.de"
 git config --global user.name "Colinas Maoling"
+git config --global user.id "cmaoling"
 DEFAULT_REPOSITORY="DS81"
 if [ -d  "$DEFAULT_REPOSITORY" ]; then
   cd DS81 
