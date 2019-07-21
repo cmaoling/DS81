@@ -92,3 +92,28 @@
   100  sudo nano /etc/network/interfaces
   101  ifconfig  -a
   102  ping 192.168.4.1
+
+
+/etc/environment um DOCKER_HOST zu setzen
+
+nmtui 
+- physical adapter muss up sein
+    eth0 muss up sein
+- vlan erstellen
+    eth0.70
+    addr 192.168.70.0/29, gw 192.168.70.1
+     (ist automatisch aktiv)
+ - bridge erstellen
+    docker network create --subnet 192.168.70.0/29 -o com.docker.network.bridge.name=br-vlan70 bridge70
+
+sudo nmtui: create VLAN
+  vconfig add eth0 xx
+  ip addr add 192.168.70.0/xx brd + dev eth0.xx
+  ip link set eth0.xx up
+docker network create --subnet 172.x.x.x/x -o com.docker.network.bridge.name=br-... bridgexx
+sudo brctl addif br-vlanxx eth0.xx
+ip addr 
+
+ip addr
+docker network ls
+docker run -it -d --net=bridgexx --name=... -p
