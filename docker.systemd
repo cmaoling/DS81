@@ -1,0 +1,13 @@
+sudo cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
+sudo nano /etc/systemd/system/docker.service
+
+ExecStart=/usr/bin/dockerd -H tcp://$HOST:2376 \
+  --tlsverify --tlscacert=/etc/docker/ca.pem \
+  --tlskey=/etc/docker/key.pem \
+  --tlscert=/etc/docker/cert.pem \
+  --data-root /docker -s overlay2
+
+
+sudo systemctl daemon-reload
+sudo systemctl start docker
+
