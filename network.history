@@ -112,44 +112,11 @@ sudo nmtui: create VLAN
   ip link set eth0.xx up
 docker network create --subnet 172.x.x.x/x -o com.docker.network.bridge.name=br-... bridgexx
 sudo brctl addif br-vlanxx eth0.xx
+sudo echo 1 > /sys/class/net/br-vlanxx/bridge/vlan_filtering
+bridge vlan add vid 10 pvid untagged dev veth53
+
 ip addr 
 
 ip addr
 docker network ls
 docker run -it -d --net=bridgexx --name=... -p
-
-
-brctl show
-bridge name	bridge id		STP enabled	interfaces
-br-vlany		8000.024269dd73e8	no		veth344e7a4
-							veth9d3fdc8
-							vethd3be2ba
-							vethda60e4a
-br-vlanxx		8000.0242cabeadda	no		veth7d1fe3c
-							veth7f14428
-docker0		8000.0242156d0126	no		
-
-bridge vlan add vid xx pvid untagged dev veth7d1fe3c
-bridge vlan del vid 1 pvid untagged dev veth7d1fe3c
-bridge vlan show
-port	vlan ids
-docker0	 1 PVID Egress Untagged
-
-br-vlan1	 1 PVID Egress Untagged
-
-vethda60e4a	 1 PVID Egress Untagged
-
-vethd3be2ba	 1 PVID Egress Untagged
-
-veth344e7a4	 1 PVID Egress Untagged
-
-br-vlan70	 70 PVID Egress Untagged
-
-veth7f14428	 70 PVID Egress Untagged
-
-veth9d3fdc8	 1 PVID Egress Untagged
-
-veth7d1fe3c	 70 PVID Egress Untagged
-
-cat /sys/class/net/br-vlan70/bridge/vlan_filtering
-1
