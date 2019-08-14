@@ -10,6 +10,9 @@ env/environment HOST=...
 curl  https://raw.githubusercontent.com/cmaoling/DS81/master/docker.systemd | .
 nano /etc/fstab
 <RESTART>
+Copy crededentials
+Copy Docker
+docker ps
 sudo nano /etc/systemd/system/docker.service 
 sudo systemctl daemon-reload
 sudo systemctl status docker.service
