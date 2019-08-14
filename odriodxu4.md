@@ -13,3 +13,5 @@ nano /etc/fstab
 sudo nano /etc/systemd/system/docker.service 
 sudo systemctl daemon-reload
 sudo systemctl status docker.service
+
+https://serverpilot.io/docs/how-to-use-ssh-public-key-authentication
