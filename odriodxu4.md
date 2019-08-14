@@ -14,4 +14,5 @@ sudo nano /etc/systemd/system/docker.service
 sudo systemctl daemon-reload
 sudo systemctl status docker.service
 
-https://serverpilot.io/docs/how-to-use-ssh-public-key-authentication
+ssh: https://serverpilot.io/docs/how-to-use-ssh-public-key-authentication
+nextcloud: https://docs.nextcloud.com/server/13/admin_manual/maintenance/backup.html#maintenance-mode
