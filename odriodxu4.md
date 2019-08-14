@@ -16,3 +16,4 @@ sudo systemctl status docker.service
 
 ssh: https://serverpilot.io/docs/how-to-use-ssh-public-key-authentication
 nextcloud: https://docs.nextcloud.com/server/13/admin_manual/maintenance/backup.html#maintenance-mode
+cloudkey: https://www.naschenweng.info/2017/01/06/unifi-cloud-key-ssl-configuration-rapidssl/
