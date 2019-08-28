@@ -1,1 +1,6 @@
+TLS certificate install
 https://thesecondsposts.com/posts/install_ssl-tls_cert_on_edgerouter_x/
+https://www.stevejenkins.com/blog/2015/10/install-an-ssl-certificate-on-a-ubiquiti-edgemax-edgerouter/
+
+SSH public key login:
+https://medium.com/server-guides/how-to-add-ssh-keys-to-edgerouter-9458b1cc8332
